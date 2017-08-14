@@ -1,0 +1,16 @@
+<div style="position: relative; text-align: center; margin-top: 10px; min-width: 600px; ">
+  <h2>Log:</h2>
+  <input type="text" class="search" #searchInput (change)="this.filter(searchInput.value)">
+  <button [style.top]="this.top" #scroolLogs class="scroll" (click)="this.scroll()"> Scroll</button>
+  <button [style.top]="this.top" #clearLogs class="clear" (click)="this.clear()"> X</button>
+  <hr/>
+  <div class="myLogs" #myLogs>
+    <div class="item" *ngFor="let item of this.getFilteredItems()">
+      <div *ngIf="!item.isSubItem" class="datetime">{{item.getDate()}}:</div>
+      <div *ngIf="item.isSubItem" class="subItemSpace">{{item.getDate()}}:</div>
+      <div [ngStyle]="{color: item.getColor()}" class="itemvalue"> {{item.value}}</div>
+    </div>
+  </div>
+  <hr/>
+
+</div>

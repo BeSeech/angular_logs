@@ -1,0 +1,21 @@
+button.test {
+  width: 100px;
+  height: 50px;
+  float: left;
+  margin: 10px;
+  display: block;
+}
+
+.clear {
+  clear: left;
+}
+
+div.test{
+  min-width: 120px;
+  max-width: 120px;
+  width: 120px;
+  height: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}

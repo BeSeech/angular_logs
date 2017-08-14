@@ -1,0 +1,11 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to {{title}}!
+  </h1>
+  <div class="test">
+    <button *ngIf="!this.isTestActive"  class="test" (click)="this.runTest();">Run test</button>
+    <button *ngIf="this.isTestActive" class="test" (click)="this.stopTest();">Stop test</button>
+  </div>
+  <app-logs [buffer]="500"></app-logs>
+</div>
