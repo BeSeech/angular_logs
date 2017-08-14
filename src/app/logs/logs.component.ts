@@ -20,7 +20,6 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
   private searchPattern: RegExp;
   private isFiltered = false;
 
-
   constructor(private logService: LogsService) {
   }
 
@@ -41,25 +40,26 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.scrollToBottom();
   }
 
-  filter(value: string): void {
-    this.isFiltered = (value.trim() !== '');
-    const s = value.trim();
-    let r = '';
-    for (let i = 0;
-         i < s.length;
-         i++) {
+  private prepareTemplate(s: string): string {
+    let result = '';
+    const toShield: string[] = ['.', '\\', '/'];
 
-      if (s[i] === '.') {
-        r += '\\' + s[i];
+    for (let i = 0;
+      i < s.length;
+      i++) {
+      if (toShield.includes(s[i])) {
+        result += '\\' + s[i];
       } else {
-        if (s[i] === '\\') {
-          r += '\\' + s[i];
-        } else {
-          r += s[i];
-        }
+        result += s[i];
       }
     }
-    this.searchPattern = new RegExp(r, 'mgi');
+    return result;
+  }
+
+  filter(value: string): void {
+    this.isFiltered = (value.trim() !== '');
+    const s = this.prepareTemplate(value.trim());
+    this.searchPattern = new RegExp(s, 'mgi');
     setTimeout(() => this.scroll(), 100);
   }
 
