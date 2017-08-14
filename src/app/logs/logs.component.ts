@@ -12,14 +12,14 @@ import {Observable} from 'rxjs/Observable';
 })
 
 export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
+
   @ViewChild('myLogs') private myScrollContainer: ElementRef;
   @Input() public buffer = 500;
 
-  public items: LogItem[] = [];
+  private items: LogItem[] = [];
+  private searchPattern: RegExp;
+  private isFiltered = false;
 
-  private patt: RegExp;
-
-  public isFiltered = false;
 
   constructor(private logService: LogsService) {
   }
@@ -59,14 +59,12 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
         }
       }
     }
-    this.patt = new RegExp(r, 'mgi');
+    this.searchPattern = new RegExp(r, 'mgi');
+    setTimeout(() => this.scroll(), 100);
   }
 
   canPassFilter(s: string): boolean {
-    if (!this.isFiltered) {
-      return true;
-    }
-    return this.patt.test(s);
+    return this.searchPattern.test(s);
   }
 
   clear(): void {
@@ -74,7 +72,13 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   scroll(): void {
-    this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch
+      (err) {
+      console.error('this.scroll(): ' + err.message);
+    }
+
   }
 
   ngOnDestroy() {
@@ -82,15 +86,11 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   scrollToBottom(forced ?: boolean): void {
-    try {
-      let needToScrool: boolean;
-      needToScrool =
-        (this.myScrollContainer.nativeElement.scrollHeight - this.myScrollContainer.nativeElement.scrollTop) < 470;
-      if (forced || needToScrool) {
-        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-      }
-    } catch
-      (err) {
+    let needToScrool: boolean;
+    needToScrool =
+      (this.myScrollContainer.nativeElement.scrollHeight - this.myScrollContainer.nativeElement.scrollTop) < 470;
+    if (forced || needToScrool) {
+      this.scroll();
     }
   }
 
