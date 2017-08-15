@@ -4,6 +4,7 @@ import {
 import {LogColor, LogItem} from './LogItem';
 import {LogsService} from './LogsService';
 import {Observable} from 'rxjs/Observable';
+import {map} from 'rxjs/operator/map';
 
 @Component({
   selector: 'app-logs',
@@ -14,11 +15,14 @@ import {Observable} from 'rxjs/Observable';
 export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   @ViewChild('myLogs') private myScrollContainer: ElementRef;
+  @ViewChild('inputField') private inputField: ElementRef;
+
   @Input() public buffer = 500;
 
   private items: LogItem[] = [];
   private searchPattern: RegExp;
   private isFiltered = false;
+  private keyUpObservable: any;
 
   constructor(private logService: LogsService) {
   }
@@ -37,7 +41,7 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngAfterViewChecked() {
-    this.scrollToBottom();
+      this.scrollToBottom();
   }
 
   private prepareTemplate(s: string): string {
@@ -104,7 +108,13 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
           this.items[0].isSubItem = false;
         }
         this.items.push(logItem);
-        this.scrollToBottom();
       });
+
+    this.logService.success('Subscribing');
+    this.keyUpObservable = Observable.fromEvent(this.inputField.nativeElement, 'keyup')
+      .map(() => this.inputField.nativeElement.value)
+      .debounceTime(250).distinctUntilChanged();
+    this.keyUpObservable.subscribe(s => this.filter(s));
+
   }
 }
