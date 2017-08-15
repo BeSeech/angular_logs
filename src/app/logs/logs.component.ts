@@ -42,7 +42,7 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   private prepareTemplate(s: string): string {
     let result = '';
-    const toShield: string[] = ['.', '\\', '/'];
+    const toShield: string[] = ['.', '\\', '/', '[', ']', '(', ')', '{', '}'];
 
     for (let i = 0;
       i < s.length;
