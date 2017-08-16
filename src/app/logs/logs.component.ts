@@ -27,21 +27,12 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
   constructor(private logService: LogsService) {
   }
 
-  public getFilteredItems(): LogItem[] {
-    if (!this.isFiltered) {
-      return this.items;
-    }
-
-    const result: LogItem[] = [];
-    Observable.from(this.items).filter(i => this.canPassFilter(i.value))
-      .subscribe(i => {
-        result.push(i);
-      });
-    return result;
+  public getFilteredItems(): Observable<LogItem[]> {
+    return Observable.from(this.items).filter(i => this.canPassFilter(i.value)).toArray();
   }
 
   ngAfterViewChecked() {
-      this.scrollToBottom();
+    this.scrollToBottom();
   }
 
   private prepareTemplate(s: string): string {
@@ -68,6 +59,9 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   canPassFilter(s: string): boolean {
+    if (!this.isFiltered) {
+      return true;
+    }
     return this.searchPattern.test(s);
   }
 
