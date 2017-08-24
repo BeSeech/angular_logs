@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {LogsService} from './logs/LogsService';
+import {LogsService} from './logs/logs.service';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 

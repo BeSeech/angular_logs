@@ -1,4 +1,4 @@
-import {LogItem} from '../LogItem';
+import {LogItem} from './logItemModel';
 
 export interface LogState {
   items: LogItem[];

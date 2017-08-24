@@ -1,8 +1,8 @@
 import {
   Component, ElementRef, OnInit, ViewChild, AfterViewChecked, OnDestroy, Input, Inject
 } from '@angular/core';
-import {LogItem} from './LogItem';
-import {LogsService} from './LogsService';
+import {LogItem} from './redux/logItemModel';
+import {LogsService} from './logs.service';
 import {Observable} from 'rxjs/Observable';
 import {LogStore} from './redux/store';
 import {LogState} from './redux/state';
@@ -70,7 +70,7 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   clear(): void {
-    // this.items = [];
+    this.store.dispatch(ActionFacility.ClearLog());
   }
 
   scroll(): void {

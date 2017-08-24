@@ -1,5 +1,5 @@
 import {EventEmitter, Inject, Injectable} from '@angular/core';
-import {LogItem, LogColor} from './LogItem';
+import {LogItem, LogColor} from './redux/logItemModel';
 
 @Injectable()
 export class LogsService {

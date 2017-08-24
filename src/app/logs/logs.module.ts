@@ -1,7 +1,7 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {LogsComponent} from './logs.component';
-import {LogsService} from './LogsService';
+import {LogsService} from './logs.service';
 
 @NgModule({
   declarations: [

@@ -1,14 +1,9 @@
-import {LogColor, LogItem} from '../LogItem';
-import {Action, ActionCreator} from 'redux';
+import {LogItem} from './logItemModel';
+import {Action} from 'redux';
 
-export enum ActionType {AddLogItem, ClearLogs, FilterLogMessages}
-
+export enum ActionType {AddLogItem, ClearLogs}
 export interface AddLogItemAction extends Action {
   logItem: LogItem;
-}
-
-export interface FilterLogMessageAction extends Action {
-  filter: string;
 }
 
 export class ActionFacility {
@@ -22,13 +17,6 @@ export class ActionFacility {
   public static ClearLog(): Action {
     return {
       type: ActionType.ClearLogs
-    };
-  }
-
-  public static FilterLog(filter: string): FilterLogMessageAction {
-    return {
-      type: ActionType.FilterLogMessages,
-      filter: filter
     };
   }
 }
