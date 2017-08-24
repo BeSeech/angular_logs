@@ -101,12 +101,13 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
       .subscribe(logItem => {
         this.store.dispatch(ActionFacility.AddLogItem(logItem));
       });
+    this.store.dispatch(ActionFacility.SetBufferSize(this.buffer));
 
     this.logService.success('Log initialization...');
     this.keyUpObservable = Observable.fromEvent(this.inputField.nativeElement, 'keyup')
       .map(() => this.inputField.nativeElement.value)
       .debounceTime(250).distinctUntilChanged();
     this.keyUpObservable.subscribe(s => this.filter(s));
-    this.logService.success('Log initialization complete');
+    this.logService.success('Log initialization complete. Buffer size: ' + this.store.getState().buffer);
   }
 }

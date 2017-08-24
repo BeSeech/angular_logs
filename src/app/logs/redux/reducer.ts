@@ -7,6 +7,14 @@ import {Action, Reducer} from 'redux';
 const initialState: LogState = {items: [], buffer: 500};
 
 class ReducerHelper {
+  static SetBufferSize(state: LogState, action: Action): LogState {
+    const a: Actions.SetBufferSizeAction = <Actions.SetBufferSizeAction>action;
+    return {
+      items: state.items.concat([]),
+      buffer: a.buffer
+    };
+  }
+
   static AddItem(state: LogState, action: Action): LogState {
     const newItems: LogItem[] = state.items.concat([]);
     if (newItems.length > state.buffer) {
@@ -33,6 +41,8 @@ class ReducerHelper {
 export const logReducer: Reducer<LogState> =
   (state: LogState = initialState, action: Action): LogState => {
     switch (action.type) {
+      case ActionType.SetBufferSize:
+        return ReducerHelper.SetBufferSize(state, action);
       case ActionType.AddLogItem:
         return ReducerHelper.AddItem(state, action);
       case ActionType.ClearLogs:

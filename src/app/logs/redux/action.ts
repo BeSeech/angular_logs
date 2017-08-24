@@ -1,9 +1,12 @@
 import {LogItem} from './logItemModel';
 import {Action} from 'redux';
 
-export enum ActionType {AddLogItem, ClearLogs}
+export enum ActionType {AddLogItem, ClearLogs, SetBufferSize}
 export interface AddLogItemAction extends Action {
   logItem: LogItem;
+}
+export interface SetBufferSizeAction extends Action {
+  buffer: number;
 }
 
 export class ActionFacility {
@@ -11,6 +14,13 @@ export class ActionFacility {
     return {
       type: ActionType.AddLogItem,
       logItem: logItem
+    };
+  }
+
+  public static SetBufferSize(bufferSize: number): SetBufferSizeAction {
+    return {
+      type: ActionType.SetBufferSize,
+      buffer: bufferSize
     };
   }
 
