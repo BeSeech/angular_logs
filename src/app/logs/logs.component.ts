@@ -1,10 +1,13 @@
 import {
-  Component, ElementRef, OnInit, ViewChild, AfterViewChecked, OnDestroy, Input
+  Component, ElementRef, OnInit, ViewChild, AfterViewChecked, OnDestroy, Input, Inject
 } from '@angular/core';
-import {LogColor, LogItem} from './LogItem';
+import {LogItem} from './LogItem';
 import {LogsService} from './LogsService';
 import {Observable} from 'rxjs/Observable';
-import {map} from 'rxjs/operator/map';
+import {LogStore} from './redux/store';
+import {LogState} from './redux/state';
+import {Store} from 'redux';
+import {ActionFacility} from './redux/action';
 
 @Component({
   selector: 'app-logs',
@@ -19,16 +22,17 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   @Input() public buffer = 500;
 
-  private items: LogItem[] = [];
   private searchPattern: RegExp;
   private isFiltered = false;
   private keyUpObservable: any;
 
-  constructor(private logService: LogsService) {
+  constructor(private logService: LogsService, @Inject(LogStore) private store: Store<LogState>) {
   }
 
   public getFilteredItems(): Observable<LogItem[]> {
-    return Observable.from(this.items).filter(i => this.canPassFilter(i.value)).toArray();
+    return Observable.from(this.store.getState().items)
+      .filter(i => this.canPassFilter(i.value))
+      .toArray();
   }
 
   ngAfterViewChecked() {
@@ -55,7 +59,7 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.isFiltered = (value.trim() !== '');
     const s = this.prepareTemplate(value.trim());
     this.searchPattern = new RegExp(s, 'mgi');
-    setTimeout(() => this.scroll(), 100);
+    setTimeout(() => this.scroll(), 0);
   }
 
   canPassFilter(s: string): boolean {
@@ -66,7 +70,7 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   clear(): void {
-    this.items = [];
+    // this.items = [];
   }
 
   scroll(): void {
@@ -95,13 +99,7 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
   ngOnInit() {
     this.logService.getLogEvents()
       .subscribe(logItem => {
-        if (this.items.length > this.buffer) {
-          this.items.shift();
-          this.items[0].value = '...';
-          this.items[0].color = LogColor.yellow;
-          this.items[0].isSubItem = false;
-        }
-        this.items.push(logItem);
+        this.store.dispatch(ActionFacility.AddLogItem(logItem));
       });
 
     this.logService.success('Log initialization...');
