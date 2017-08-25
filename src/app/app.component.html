@@ -4,7 +4,10 @@
     Welcome to {{title}}!
   </h1>
   <div class="test">
-    <button *ngIf="!this.isTestActive"  class="test" (click)="this.runTest();">Run test</button>
+    <button *ngIf="!this.isTestActive" class="test" (click)="this.runTest();"
+            popup message="Start" #p1="popupEx">
+      Run test<br />( {{p1.getText()}} )
+    </button>
     <button *ngIf="this.isTestActive" class="test" (click)="this.stopTest();">Stop test</button>
   </div>
   <app-logs [buffer]="500"></app-logs>
