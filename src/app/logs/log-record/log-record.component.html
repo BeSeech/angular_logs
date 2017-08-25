@@ -1,0 +1,5 @@
+<div class="item">
+  <div *ngIf="!item.isSubItem" class="datetime">{{item.getDate()}}:</div>
+  <div *ngIf="item.isSubItem" class="subItemSpace">{{item.getDate()}}:</div>
+  <div [ngStyle]="{color: item.getColor()}" class="itemValue"> {{item.value}}</div>
+</div>

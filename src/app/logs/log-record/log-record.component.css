@@ -1,0 +1,33 @@
+div.datetime {
+  margin-right: 20px;
+  float: left;
+  color: white;
+  text-shadow: gray 1px 1px 1px ;
+}
+
+div.subItemSpace {
+  margin-right: 20px;
+  margin-left: 155px;
+  float: left;
+  color: gray;
+}
+
+
+.clear {
+  clear: left;
+}
+
+
+div.itemValue {
+  margin-left: 100px;
+  word-wrap: break-word;
+}
+
+div.item {
+  font-size: 24px;
+  margin-left: 5px;
+  margin-top: 10px;
+  float: left;
+  width: 90%;
+  color: black;
+}

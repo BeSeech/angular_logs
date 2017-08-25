@@ -9,10 +9,6 @@
     <div id="caption">Log:</div>
   </div>
   <div class="myLogs" #myLogs>
-    <div class="item" *ngFor="let item of this.getFilteredItems() | async">
-      <div *ngIf="!item.isSubItem" class="datetime">{{item.getDate()}}:</div>
-      <div *ngIf="item.isSubItem" class="subItemSpace">{{item.getDate()}}:</div>
-      <div [ngStyle]="{color: item.getColor()}" class="itemValue"> {{item.value}}</div>
-    </div>
+    <app-log-record *ngFor="let item of this.getFilteredItems() | async" [item]="item"></app-log-record>
   </div>
 </div>
