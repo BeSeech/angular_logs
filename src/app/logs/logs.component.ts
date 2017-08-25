@@ -22,7 +22,7 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   @Input() public buffer = 500;
 
-  private searchPattern: RegExp;
+  private searchString: string;
   private isFiltered = false;
   private keyUpObservable: any;
 
@@ -39,26 +39,9 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.scrollToBottom();
   }
 
-  private prepareTemplate(s: string): string {
-    let result = '';
-    const toShield: string[] = ['.', '\\', '/', '[', ']', '(', ')', '{', '}', '^', ':'];
-
-    for (let i = 0;
-      i < s.length;
-      i++) {
-      if (toShield.includes(s[i])) {
-        result += '\\' + s[i];
-      } else {
-        result += s[i];
-      }
-    }
-    return result;
-  }
-
   filter(value: string): void {
     this.isFiltered = (value.trim() !== '');
-    const s = this.prepareTemplate(value.trim());
-    this.searchPattern = new RegExp(s, 'mgi');
+    this.searchString = value.toLowerCase();
     setTimeout(() => this.scroll(), 0);
   }
 
@@ -66,7 +49,7 @@ export class LogsComponent implements OnInit, AfterViewChecked, OnDestroy {
     if (!this.isFiltered) {
       return true;
     }
-    return this.searchPattern.test(s);
+    return s.toLowerCase().indexOf(this.searchString) > 0;
   }
 
   clear(): void {
