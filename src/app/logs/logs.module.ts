@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import {LogsComponent} from './logs.component';
 import {LogsService} from './logs.service';
 import { LogRecordComponent } from './log-record/log-record.component';
+import { LogRecordSetComponent } from './log-record-set/log-record-set.component';
 
 
 @NgModule({
   declarations: [
     LogsComponent,
-    LogRecordComponent
+    LogRecordComponent,
+    LogRecordSetComponent
   ],
   imports: [
     CommonModule

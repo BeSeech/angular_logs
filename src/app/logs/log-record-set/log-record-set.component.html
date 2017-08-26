@@ -1,0 +1,3 @@
+<div class="myLogs" #myLogs>
+  <app-log-record *ngFor="let item of this.getFilteredItems() | async" [item]="item"></app-log-record>
+</div>
