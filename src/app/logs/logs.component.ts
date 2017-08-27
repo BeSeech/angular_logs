@@ -21,8 +21,8 @@ export class LogsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(ActionFacility.ClearLog());
     this.store.dispatch(ActionFacility.SetBufferSize(this.buffer));
-
     this.keyUpObservable = Observable.fromEvent(this.inputField.nativeElement, 'keyup')
       .map(() => this.inputField.nativeElement.value)
       .debounceTime(250).distinctUntilChanged();

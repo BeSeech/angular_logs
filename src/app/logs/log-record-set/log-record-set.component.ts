@@ -15,10 +15,8 @@ import {LogItem} from '../redux/logItemModel';
 export class LogRecordSetComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @ViewChild('myLogs') private htmlElement: ElementRef;
-  private isFiltered = false;
-  private searchString = '';
 
-  constructor(private logService: LogsService, @Inject(LogStore) private store: Store<LogState>) {
+  constructor(private logService: LogsService, @Inject(LogStore) public store: Store<LogState>) {
   }
 
   ngOnInit() {
@@ -26,7 +24,6 @@ export class LogRecordSetComponent implements OnInit, OnDestroy, AfterViewChecke
       .subscribe(logItem => {
         this.store.dispatch(ActionFacility.AddLogItem(logItem));
       });
-    this.store.subscribe(() => this.filter(this.store.getState().filter));
     this.logService.success('Log initialization complete. Buffer size: ' + this.store.getState().buffer);
   }
 
@@ -36,28 +33,6 @@ export class LogRecordSetComponent implements OnInit, OnDestroy, AfterViewChecke
 
   ngOnDestroy(): void {
     this.logService.getLogEvents().unsubscribe();
-  }
-
-  private filter(s: String): void {
-    if (this.searchString === s.toLowerCase()) {
-      return;
-    }
-    this.isFiltered = (s.trim() !== '');
-    this.searchString = s.toLowerCase();
-    setTimeout(() => this.scroll(), 0);
-  }
-
-  public getFilteredItems(): Observable<LogItem[]> {
-    return Observable.from(this.store.getState().items)
-      .filter(i => this.canPassFilter(i.value))
-      .toArray();
-  }
-
-  canPassFilter(s: string): boolean {
-    if (!this.isFiltered) {
-      return true;
-    }
-    return s.toLowerCase().indexOf(this.searchString) >= 0;
   }
 
   scroll(): void {
@@ -77,6 +52,5 @@ export class LogRecordSetComponent implements OnInit, OnDestroy, AfterViewChecke
       this.scroll();
     }
   }
-
 }
 
