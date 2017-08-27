@@ -3,7 +3,9 @@ import {Observable} from 'rxjs/Observable';
 import {LogStore} from './redux/store';
 import {LogState} from './redux/state';
 import {Store} from 'redux';
-import {ActionFacility} from './redux/action';
+import {ActionFacility} from './redux/action'
+import 'rxjs';
+
 
 @Component({
   selector: 'app-logs',

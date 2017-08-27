@@ -5,6 +5,8 @@ import {LogsService} from './logs.service';
 import { LogRecordComponent } from './log-record/log-record.component';
 import { LogRecordSetComponent } from './log-record-set/log-record-set.component';
 import {NgFilterLogDirective} from './directive/filter-log.directive';
+import {appStoreProviders} from './redux/store';
+
 
 
 @NgModule({
@@ -24,6 +26,7 @@ import {NgFilterLogDirective} from './directive/filter-log.directive';
     //если объявить LogsService тут. то возможны лишние экземпляры LogsService при включении в множество модулей
     //по этому у класса модуля добавляем метод forRoot регистрирующий провайдер и вызываем этот метод только при
     //включении модуля в главный модуль приложения
+    appStoreProviders
   ]
 })
 export class LogsModule {
