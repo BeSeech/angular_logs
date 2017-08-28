@@ -6,6 +6,7 @@ import { LogRecordComponent } from './log-record/log-record.component';
 import { LogRecordSetComponent } from './log-record-set/log-record-set.component';
 import {NgFilterLogDirective} from './directive/filter-log.directive';
 import {appStoreProviders} from './redux/store';
+import { NgLogForDirective } from './directive/ng-log-for.directive';
 
 
 
@@ -14,7 +15,8 @@ import {appStoreProviders} from './redux/store';
     LogsComponent,
     LogRecordComponent,
     LogRecordSetComponent,
-    NgFilterLogDirective
+    NgFilterLogDirective,
+    NgLogForDirective
   ],
   imports: [
     CommonModule
